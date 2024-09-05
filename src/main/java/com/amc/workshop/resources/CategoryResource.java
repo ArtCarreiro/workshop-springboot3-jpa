@@ -7,27 +7,26 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
-import com.amc.workshop.entities.User;
-
-import com.amc.workshop.services.UserService;
+import com.amc.workshop.entities.Category;
+import com.amc.workshop.services.CategoryService;
 
 @RestController
-@RequestMapping(value = "/users")
-public class UserResource {
+@RequestMapping(value = "/category")
+public class CategoryResource {
 
     @Autowired
-    private UserService service;
+    private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<User>> response() {
-        List<User> list = service.findAll();
+    public ResponseEntity<List<Category>> response() {
+        List<Category> list = service.findAll();
         return ResponseEntity.ok().body(list);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> responseById(@PathVariable Long id) {
-        User allId = service.findById(id);
-        return ResponseEntity.ok().body(allId);
+    public ResponseEntity<Category> responseById(@PathVariable Long id) {
+        Category findId = service.findById(id);
+        return ResponseEntity.ok().body(findId);
     }
 
 }

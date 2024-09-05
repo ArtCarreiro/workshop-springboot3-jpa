@@ -13,14 +13,14 @@ import com.amc.workshop.entities.Order;
 public class OrderService {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderRepository repository;
 
     public List<Order> findAll(){
-        return orderRepository.findAll();
+        return repository.findAll();
     }
 
     public Order findById(Long id){
-        Optional<Order> opt = orderRepository.findById(id);
+        Optional<Order> opt = repository.findById(id);
         return opt.get();
     }
 
