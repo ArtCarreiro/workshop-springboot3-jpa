@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "table_Order")
 public class Order implements Serializable {
-private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,9 +31,10 @@ private static final long serialVersionUID = 1L;
 
     private Integer orderStatus;
 
-    public Order(){}
+    public Order() {
+    }
 
-    public Order(Long id, Instant moment, OrderStatus orderStatus ,User client) {
+    public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         Id = id;
         this.moment = moment;
         this.client = client;
@@ -45,7 +46,7 @@ private static final long serialVersionUID = 1L;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {
-        if(orderStatus != null){
+        if (orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
     }
@@ -98,6 +99,5 @@ private static final long serialVersionUID = 1L;
             return false;
         return true;
     }
-
 
 }
