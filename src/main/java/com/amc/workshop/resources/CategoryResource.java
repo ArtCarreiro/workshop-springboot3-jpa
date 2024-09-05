@@ -11,7 +11,7 @@ import com.amc.workshop.entities.Category;
 import com.amc.workshop.services.CategoryService;
 
 @RestController
-@RequestMapping(value = "/category")
+@RequestMapping(value = "/categories")
 public class CategoryResource {
 
     @Autowired
