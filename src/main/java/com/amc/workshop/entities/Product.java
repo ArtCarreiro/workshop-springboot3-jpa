@@ -2,10 +2,10 @@ package com.amc.workshop.entities;
 
 import jakarta.persistence.Table;
 
-
 import java.io.Serializable;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashSet;
 
@@ -16,6 +16,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 
 @Entity
 @Table(name = "table_product")
@@ -31,15 +32,14 @@ public class Product implements Serializable {
     private Double price;
     private String imgUrl;
 
-    
     @ManyToMany
-    @JoinTable(name = "table_product_category", 
-    joinColumns = @JoinColumn(name = "product_id"),
-    inverseJoinColumns = @JoinColumn(name = "category_id")
-    )
+    @JoinTable(name = "table_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
-    public Product(Long id, String name, String description,  Double price, String imgUrl) {
+    @OneToMany(mappedBy = "id.product")
+    Set<OrderItem> items = new HashSet<>();
+
+    public Product(Long id, String name, String description, Double price, String imgUrl) {
         super();
         this.id = id;
         this.name = name;
@@ -93,6 +93,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
     @Override
