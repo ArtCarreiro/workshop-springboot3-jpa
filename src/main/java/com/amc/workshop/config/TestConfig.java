@@ -10,6 +10,7 @@ import java.time.Instant;
 import com.amc.workshop.entities.Category;
 import com.amc.workshop.entities.Order;
 import com.amc.workshop.entities.OrderItem;
+import com.amc.workshop.entities.Payment;
 import com.amc.workshop.entities.Product;
 import com.amc.workshop.entities.User;
 import com.amc.workshop.entities.enums.OrderStatus;
@@ -82,5 +83,10 @@ public class TestConfig implements CommandLineRunner {
         OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
 
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
+        Payment pay1 = new Payment(null, Instant.parse("2019-06-20T21:00:07Z"),o1);
+        o1.setPayment(pay1);
+
+        orderRepository.save(o1);
     }
 }
