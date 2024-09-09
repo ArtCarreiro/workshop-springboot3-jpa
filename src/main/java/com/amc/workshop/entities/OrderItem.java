@@ -3,10 +3,10 @@ package com.amc.workshop.entities;
 import java.io.Serializable;
 
 import com.amc.workshop.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,7 +15,7 @@ public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
@@ -23,14 +23,16 @@ public class OrderItem implements Serializable {
     public OrderItem() {
     }
 
-    public OrderItem(Product product, Order order, Integer quantity, Double price) {
+    public OrderItem(Order order, Product product, Integer quantity, Double price) {
+        super();
+        id.setOrder(order);
+        id.setProduct(product);
         this.quantity = quantity;
         this.price = price;
-        setProduct(product);
-        setOrder(order);
     }
 
-    public Order getOrder(){
+    @JsonIgnore
+    public Order getOrder() {
         return id.getOrder();
     }
 
@@ -38,7 +40,7 @@ public class OrderItem implements Serializable {
         id.setOrder(order);
     }
 
-    public Product product() {
+    public Product getProduct() {
         return id.getProduct();
     }
 
@@ -60,6 +62,10 @@ public class OrderItem implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public Double getSubTotal() {
+        return price * quantity;
     }
 
     @Override
@@ -86,9 +92,4 @@ public class OrderItem implements Serializable {
             return false;
         return true;
     }
-
-    public double subTotal() {
-        return price += quantity;
-    }
-
 }
