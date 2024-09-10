@@ -10,26 +10,28 @@ import jakarta.persistence.Table;
 import java.io.Serializable;
 import java.time.Instant;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "table_payment")
-public class Payment implements Serializable{
-private static final long serialVersionUID = 1L;
+public class Payment implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")   
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
   private Instant moment;
 
+  @JsonIgnore
   @OneToOne
   @MapsId
   private Order order;
 
-  public Payment(){}
+  public Payment() {
+  }
 
   public Payment(Long id, Instant moment, Order order) {
     super();
@@ -86,8 +88,5 @@ private static final long serialVersionUID = 1L;
       return false;
     return true;
   }
-
-  
-
 
 }
