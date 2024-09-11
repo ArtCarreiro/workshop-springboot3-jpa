@@ -13,6 +13,8 @@ import com.amc.workshop.repositories.UserRepository;
 import com.amc.workshop.services.exceptions.DataBaseException;
 import com.amc.workshop.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 
@@ -45,9 +47,14 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        User entity = repository.getReferenceById(id);
-        updateUser(entity, obj);
-        return repository.save(entity);
+        try {
+            User entity = repository.getReferenceById(id);
+            updateUser(entity, obj);
+            return repository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
+
     }
 
     private void updateUser(User entity, User obj) {
